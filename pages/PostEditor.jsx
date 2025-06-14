@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './PostEditor.css';
 
-const PostEditor = () => {
+const PostEditor = () => {{
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
@@ -32,22 +32,18 @@ const PostEditor = () => {
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
+      // Get the API base URL from environment variable
+    const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
     
     // For paths starting with /uploads/
     if (imagePath.startsWith('/uploads/')) {
-      // For localhost development
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        return `http://localhost:3001${imagePath}`;
-      }
-      // For production
-      return `${window.location.origin}${imagePath}`;
+      return `${apiBaseUrl}${imagePath}`;
     }
     
     // If it's just a filename
     if (!imagePath.includes('/')) {
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        return `http://localhost:3001/uploads/${imagePath}`;
-      }
+      return `${apiBaseUrl}/uploads/${imagePath}`;
+    }
       return `${window.location.origin}/uploads/${imagePath}`;
     }
     

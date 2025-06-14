@@ -2,7 +2,12 @@
 
 // Function to get the API base URL
 export const getApiBaseUrl = () => {
-  // Use the environment variable if available (recommended approach)
+  // Use the React environment variable if available
+  if (process.env.REACT_APP_BACKEND_URL) {
+    return process.env.REACT_APP_BACKEND_URL;
+  }
+  
+  // Use the Vite environment variable if available (fallback)
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL;
   }
@@ -16,8 +21,8 @@ export const getApiBaseUrl = () => {
     return 'http://localhost:3001';
   }
   
-  // If no environment variable and in production, use the Render URL
-  return 'https://your-render-backend-url.onrender.com';
+  // Default production URL
+  return 'https://whitewhale-xxs6.onrender.com';
 };
 
 // Function to get the URL for an uploaded image

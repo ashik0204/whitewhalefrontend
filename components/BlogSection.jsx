@@ -52,21 +52,17 @@ const BlogSection = () => {
         // Try to resolve relative path - this might need adjustment based on your project structure
         return new URL(imagePath, window.location.origin).href;
       }
+        // Get the API base URL from environment variable
+      const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
       
       // For paths starting with /uploads/
       if (imagePath.startsWith('/uploads/')) {
-        const baseUrl = process.env.NODE_ENV === 'development' 
-          ? 'http://localhost:3001'
-          : window.location.origin;
-        return `${baseUrl}${imagePath}`;
+        return `${apiBaseUrl}${imagePath}`;
       }
       
       // If it's just a filename without directory structure
       if (!imagePath.includes('/')) {
-        const baseUrl = process.env.NODE_ENV === 'development'
-          ? 'http://localhost:3001'
-          : window.location.origin;
-        return `${baseUrl}/uploads/${imagePath}`;
+        return `${apiBaseUrl}/uploads/${imagePath}`;
       }
       
       // If it starts with a slash but not /uploads/

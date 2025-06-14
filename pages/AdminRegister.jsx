@@ -4,7 +4,7 @@ import axios from "axios";
 import "./AdminRegister.css";
 
 // Configure axios with the correct base URL - add this near the top after imports
-axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
 
 const AdminRegister = () => {
     const [ credentials, setcredentials ] = useState({
