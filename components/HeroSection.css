@@ -1,0 +1,48 @@
+.hero {
+  padding: 5rem 0;
+  text-align: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../assets/bg_section.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+.hero h1,
+.hero .tagline {
+  color: white;
+}
+
+.cta {
+  background-color: #0F4C81;
+  color: white;
+  padding: 0.8em 2em;
+  border-radius: 4px;
+  font-weight: 600;
+  display: inline-block;
+  transition: box-shadow 0.3s ease;
+  position: relative;
+  isolation: isolate;
+}
+
+.cta:hover {
+  color: white;
+  box-shadow: 0 0 1em rgba(15, 76, 129, 0.6);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 3rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 0;
+  }
+  
+  .cta {
+    padding: 0.7em 1.5em;
+    font-size: 0.95em;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+  }
+}

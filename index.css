@@ -1,0 +1,115 @@
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Switch default to light theme instead of dark */
+  color-scheme: light;
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+
+a {
+  font-weight: 500;
+  color: #0F4C81;
+  text-decoration: inherit;
+  transition: color 0.3s ease;
+}
+a:hover {
+  color: #1976D2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #213547;
+  background-color: #ffffff;
+}
+
+#root {
+  width: 100%;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  font-weight: 700;
+  margin-bottom: 0.5em;
+  color: #0F4C81;
+}
+
+h2 {
+  font-size: 2em;
+  line-height: 1.3;
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+p {
+  margin-bottom: 1.5em;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  .tagline {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  h2 {
+    font-size: 1.6em;
+  }
+
+  p {
+    font-size: 1em;
+  }
+}
+
+/* Override dark mode defaults */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #0F4C81;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/* Create a static folder and default image */
+.default-image {
+  background-color: #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: #666;
+  font-style: italic;
+}

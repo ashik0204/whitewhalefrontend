@@ -1,0 +1,336 @@
+#features {
+  background-color: #e6f7ff; /* Added light blue background */
+}
+
+#features .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+#features .container h2 {
+  border: 4px solid rgb(230, 243, 250);
+  border-radius: 10px;
+  text-align: center;
+  color: rgb(240, 244, 245);
+  background: url('../assets/dark_aesthetic_bg.jpeg') no-repeat 20% 20%;
+  background-size: cover;
+  padding: 1em 1em;
+  margin-bottom: 2rem;
+}
+
+/* p{
+  color:white;
+} */
+
+.description {
+  border: rgba(0, 119, 204, 0.15) solid 2px; /* Changed border color to bluish */
+  border-radius: 10px;
+  text-align: center;
+  color: #333; /* Dark text for readability */
+  background-color: #f0f9ff; /* Very light blue background */
+  background-size: cover;
+  padding: 1em 1em;
+  margin-bottom: 3rem;
+}
+
+/* New carousel layout */
+.features-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.nav-button {
+  background: rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin: 0 1rem;
+  z-index: 2;
+}
+
+.nav-button:hover {
+  background: rgba(56, 189, 248, 0.4);
+}
+
+/* Pagination dots */
+.pagination-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.page-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-dot.active {
+  background-color: #38bdf8;
+  transform: scale(1.2);
+}
+#feature-search {
+  margin-bottom: 2rem;
+  border: rgba(15, 76, 129, 0.1) solid 2px; /* Changed border color */
+  border-radius: 10px;
+  text-align: center;
+  color: #333; /* Changed to dark text */
+  background-color: #f0f9ff; /* Very light blue */
+  border-color: #a3d8ff; /* Medium-light blue border */
+  background-size: cover;
+  padding: 0.1em;
+  font-size: 1.5em;
+}
+
+/* Feature cards */
+.feature-card {
+  border: rgba(0, 119, 204, 0.2) solid 2px; /* Blue-tinted border */
+  background-color: #d1ebff; /* Light blue background for cards */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
+.feature-card.selected {
+  border-color: #38bdf8;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+}
+
+.feature-header {
+  padding: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.feature-header h3 {
+  color: #0077cc; /* Changed to a rich blue color */
+  margin: 0;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.feature-content {
+  padding: 1rem;
+  flex: 1;
+}
+
+.feature-overview {
+  color: #333; /* Changed from white to dark text */
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Feature details container - where expanded content is shown */
+.feature-details-container {
+  border: 2px solid #a3d8ff; /* Medium-light blue border */
+  border-radius: 12px;
+  background-color: #f0f9ff; /* Very light blue background */
+  margin: 1rem 0 3rem;
+  padding: 0;
+  animation: fadeIn 0.5s ease;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+  overflow: hidden;
+}
+
+.feature-details-header {
+  background-color: #d1ebff; /* Light blue header */
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.feature-details-header h3 {
+  color: #0F4C81; /* Changed from light to darker blue */
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #333; /* Changed from white to dark */
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  color: #38bdf8;
+  transform: scale(1.1);
+}
+
+.feature-details-content {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.benefits-section h4,
+.use-case-section h4,
+.testimonial-section h4 {
+  color: #0F4C81; /* Changed from light to darker blue */
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.benefits-section ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.benefits-section ul li {
+  color: #333; /* Changed from white to dark */
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.use-case-section p {
+  color: #333; /* Changed from white to dark */
+  font-size: 0.95rem;
+}
+
+.testimonial-section blockquote {
+  color: #333; /* Changed from white to dark */
+  font-style: italic;
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 3px solid #38bdf8;
+}
+
+.testimonial-section blockquote footer {
+  margin-top: 0.5rem;
+  color: #0F4C81; /* Changed color */
+  font-size: 0.85rem;
+  font-style: normal;
+}
+
+.cta-container {
+  border: rgba(0, 119, 204, 0.2) solid 2px; /* Blue-tinted border */
+  background-color: #f0f9ff; /* Very light blue */
+  border-radius: 10px;
+  text-align: center;
+  color: #333; /* Changed from white to dark */
+  background-color: #f5f7fa; /* Added light background */
+  background-size: cover;
+  padding: 1.5rem;
+  margin-top: 2rem;
+}
+
+.cta-container p {
+  font-size: 1.2rem;
+  color: #333; /* Changed from white to dark */
+  margin: 0;
+}
+
+/* Animation for expanding cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .feature-details-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-details-content {
+    grid-template-columns: 1fr;
+  }
+
+  #features .container {
+    padding: 1rem;
+  }
+  
+  .nav-button {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+    margin: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-header {
+    padding: 1rem;
+  }
+
+  .feature-content {
+    padding: 0.8rem;
+  }
+
+  .feature-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .description {
+    padding: 0.75rem;
+  }
+  
+  .feature-details-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .feature-details-content {
+    padding: 1rem;
+    gap: 1rem;
+  }
+}

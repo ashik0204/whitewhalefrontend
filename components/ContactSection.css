@@ -1,0 +1,33 @@
+#contact {
+    padding: 5rem 0;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../assets/contact1.jpg') no-repeat  ;
+    background-size: cover;
+    background-position: center 0%;
+    color: white;
+    a{
+        color: rgb(238, 238, 240);
+    }
+    .container p{
+        font-size:  24px;
+
+
+    }
+    .mailto {
+      color:rgb(225, 133, 63)
+    }
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 480px) {
+  .social-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

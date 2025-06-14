@@ -1,0 +1,90 @@
+.hunt-section {
+  padding: 6rem 5vw;
+  background-color: #ffffff;
+  color: #05002d;
+}
+
+.hunt-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .hunt-container {
+    flex-direction: row;
+    align-items: stretch; /* <-- makes left and right columns equal height */
+    justify-content: space-between;
+  }
+}
+
+.hunt-left {
+  flex: 1;
+  max-width: 600px;
+}
+
+.hunt-left h1 {
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.hunt-left p {
+  font-size: 1.25rem;
+  color: #5f6368;
+  margin-bottom: 2rem;
+}
+
+.hunt-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.trial-btn {
+  background-color: #31b7ff;
+  color: #fff;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.demo-btn {
+  background-color: transparent;
+  color: #05002d;
+  border: 2px solid #05002d;
+  padding: 0.85rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hunt-right {
+  flex: 1.5;
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hunt-card {
+  flex: 1 1 250px;
+  max-width: 600px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hunt-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

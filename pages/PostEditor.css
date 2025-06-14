@@ -1,0 +1,204 @@
+.post-editor-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.post-editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.post-editor-header h1 {
+  margin: 0;
+  color: #0a192f;
+  font-size: 1.8rem;
+}
+
+.post-editor-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-button, .save-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s;
+}
+
+.cancel-button {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.cancel-button:hover {
+  background-color: #e5e7eb;
+}
+
+.save-button {
+  background-color: #0F4C81;
+  color: white;
+  border: none;
+}
+
+.save-button:hover {
+  background-color: #0d3f6b;
+}
+
+.save-button:disabled {
+  background-color: #9ab;
+  cursor: not-allowed;
+}
+
+.post-editor-error {
+  background-color: #fee;
+  color: #c00;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.post-editor-form {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border 0.3s;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #0F4C81;
+  outline: none;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group.half {
+  width: 50%;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  max-width: 100%;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 300px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #555;
+  padding: 0.5rem;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  align-items: center;
+}
+
+.image-filename {
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 80%;
+  font-weight: bold;
+}
+
+.image-size {
+  color: #888;
+}
+
+.post-editor-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(56, 189, 248, 0.3);
+  border-radius: 50%;
+  border-top-color: #38bdf8;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .form-group.half {
+    width: 100%;
+  }
+  
+  .post-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .post-editor-actions {
+    width: 100%;
+  }
+  
+  .cancel-button, .save-button {
+    flex: 1;
+  }
+}

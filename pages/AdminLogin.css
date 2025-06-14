@@ -1,0 +1,123 @@
+.admin-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #0a192f, #172a46);
+  padding: 20px;
+}
+
+.admin-login-form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+}
+
+.admin-login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-login-header h1 {
+  font-weight: 600;
+  color: #0F4C81;
+  margin-bottom: 10px;
+}
+
+.admin-login-header p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.admin-login-form .form-group {
+  margin-bottom: 20px;
+}
+
+.admin-login-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.admin-login-form input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.admin-login-form input:focus {
+  border-color: #0F4C81;
+  outline: none;
+}
+
+.admin-login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0F4C81;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.admin-login-button:hover {
+  background-color: #0d3f6b;
+}
+
+.admin-login-button:disabled {
+  background-color: #9ab;
+  cursor: not-allowed;
+}
+
+.admin-login-error {
+  background-color: #fee;
+  color: #c00;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.admin-login-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.admin-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.back-link, .register-link {
+  color: #0F4C81;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back-link:hover, .register-link:hover {
+  text-decoration: underline;
+}
+
+.admin-divider {
+  margin: 0 10px;
+  color: #999;
+}
+
+.register-note {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 5px;
+}

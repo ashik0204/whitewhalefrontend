@@ -1,0 +1,187 @@
+#about {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  background-color: #e6f7ff; /* Changed to light blue */
+  color: #ffffff; /* Changed to white text for contrast */
+  padding: 4rem 0;
+}
+
+.about-container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 600px;
+}
+
+.about-sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.about-panel {
+  background-color: #3b7aaa; /* Light blue panels */
+  border: 2px solid #0b87df; /* Blue-tinted borders */
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 45%;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box; 
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* Remove default mobile tap highlight */
+}
+
+.about-panel:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('../assets/dark_aesthetic_bg.jpeg') no-repeat center center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.about-panel:hover, .about-panel.active {
+  transform: translateY(-5px);
+  border-color: #38bdf8;
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.3);
+}
+
+.about-panel:hover:before, .about-panel.active:before {
+  opacity: 1;
+}
+
+.about-panel h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  transition: transform 0.3s ease;
+  padding: 8px 0;
+  color: #ffffff; /* Changed to white text */
+}
+
+.about-center {
+  background: url('../assets/dark_aesthetic_bg.jpeg') no-repeat center center;
+  background-size: cover;
+  background-color: #f0f9ff; /* Add light blue background under the image */
+  border: 2px solid #a3d8ff; /* Blue-tinted border */
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.about-center h2 {
+  font-size: 2rem;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #ffffff; /* Changed to white for better visibility */
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Added text shadow for better readability */
+}
+.about-center p {
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+  color: #4e1e1e; /* Changed to white */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4); /* Added text shadow for better readability */
+}
+
+.about-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  animation: fadeIn 0.5s ease;
+}
+
+.about-content p {
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+  color: #ffffff; /* Changed from dark to white for better visibility */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Added text shadow for better readability */
+}
+
+/* Custom scrollbar for the content area */
+.about-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.about-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.about-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Media query for responsive design */
+@media (max-width: 992px) {
+  .about-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    height: auto;
+    gap: 30px;
+  }
+  
+  .about-sidebar {
+    flex-direction: row;
+    height: auto;
+    gap: 20px;
+  }
+  
+  .about-panel {
+    height: 120px;
+    width: 50%;
+    transition: box-shadow 0.3s ease; /* Simplified transition for mobile */
+  }
+  
+  .about-center {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-sidebar {
+    flex-wrap: wrap;
+  }
+  
+  .about-panel {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 15px;
+  }
+  
+  /* Disable hover-specific effects on smaller touch devices */
+  .about-panel:hover {
+    transform: none; /* Ensure no transform is applied on mobile */
+  }
+}

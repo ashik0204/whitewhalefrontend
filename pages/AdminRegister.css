@@ -1,0 +1,112 @@
+.admin-register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #0a192f, #172a46);
+  padding: 20px;
+}
+
+.admin-register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.admin-register-header h1 {
+  font-weight: 600;
+  color: #0F4C81;
+  margin-bottom: 10px;
+}
+
+.admin-register-form {
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+}
+
+.username-content,
+.email-content,
+.password-content,
+.role-select {
+  margin-bottom: 20px;
+}
+
+.admin-register-form input,
+.admin-register-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border 0.3s;
+}
+
+.admin-register-form input:focus,
+.admin-register-form select:focus {
+  border-color: #0F4C81;
+  outline: none;
+}
+
+.role-select label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.register-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #0F4C81;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.register-button:hover {
+  background-color: #0d3f6b;
+}
+
+.register-button:disabled {
+  background-color: #9ab;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c00;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.admin-register-footer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.login-link {
+  color: #0F4C81;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* Optional: Add this to improve the layout of the form */
+.admin-register-form {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,69 @@
+.debug-container {
+  padding: 20px;
+  font-family: monospace;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.debug-section {
+  margin-bottom: 30px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.debug-heading {
+  margin-top: 0;
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.debug-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.debug-list-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.debug-list-item:last-child {
+  border-bottom: none;
+}
+
+.debug-image {
+  max-width: 200px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.debug-json {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.debug-button {
+  background-color: #0F4C81;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.debug-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.debug-input {
+  margin: 10px 0;
+}

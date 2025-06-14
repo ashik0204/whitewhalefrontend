@@ -1,0 +1,9 @@
+Please ensure the following image files are available in the assets folder:
+- growth.jpg
+- teammate.jpg 
+- teamwork.jpg
+- bg_belief1.jpeg
+- bg_section.jpg
+- white_whaling_logo.jpeg
+
+These images are referenced in the components and CSS.
