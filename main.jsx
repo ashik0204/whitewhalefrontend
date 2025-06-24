@@ -5,8 +5,8 @@ import './index.css';
 import axios from 'axios';
 
 // Configure axios globally with the backend URL
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
-console.log('API URL:', process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001');
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+console.log('API URL:', import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -1,5 +1,5 @@
 // Base URL for API requests
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://your-render-backend-url.onrender.com';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
 
 // Helper function for API requests
 export const fetchApi = async (endpoint, options = {}) => {
