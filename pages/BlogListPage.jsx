@@ -4,6 +4,8 @@ import axios from 'axios';
 import './BlogListPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
+import DebugImage from '../components/DebugImage';
 
 const BlogListPage = () => {
   const [posts, setPosts] = useState([]);
@@ -76,9 +78,8 @@ const BlogListPage = () => {
     // If it's already a full URL, use it
     if (imagePath.startsWith('http')) {
       return imagePath;
-    }
-      // Get the API base URL from environment variable
-    const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+    }      // Get the API base URL from environment variable
+    const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
     
     // For paths starting with /uploads/
     if (imagePath.startsWith('/uploads/')) {

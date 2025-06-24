@@ -4,6 +4,8 @@ import axios from 'axios';
 import './BlogDetail.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
+import DebugImage from '../components/DebugImage';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -15,7 +17,8 @@ const BlogDetail = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`/api/blog/${slug}`);
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+        const response = await axios.get(`${apiBaseUrl}/api/blog/${slug}`);
         console.log('Blog post data:', response.data);
         setPost(response.data);
       } catch (err) {
@@ -35,31 +38,8 @@ const BlogDetail = () => {
       month: 'long',
       day: 'numeric'
     });
-  };
-
-  // Helper to properly format image URLs
-  const getFullImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // If it's already a full URL, use it
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    
-    // For paths starting with /uploads/    // Get the API base URL from environment variable
-    const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
-    
-    if (imagePath.startsWith('/uploads/')) {
-      return `${apiBaseUrl}${imagePath}`;
-    }
-    
-    // If it's just a filename
-    if (!imagePath.includes('/')) {
-      return `${apiBaseUrl}/uploads/${imagePath}`;
-    }
-    
-    return imagePath;
-  };
+  };  // Helper to properly format image URLs
+  const getFullImageUrl = getCorrectImagePath;
 
   if (isLoading) {
     return (
@@ -114,21 +94,13 @@ const BlogDetail = () => {
           )}
         </div>
         
-        {post.coverImage && (
-          <div className="blog-detail-image">
-            <img 
-              src={getFullImageUrl(post.coverImage)} 
+        {post.coverImage && (          <div className="blog-detail-image">
+            <DebugImage 
+              src={getCorrectImagePath(post.coverImage)} 
               alt={post.title}
-              onError={(e) => {
-                if (!e.target.getAttribute("errorlogged")){
-                  console.error("Failed to load feature image:", post.coverImage);
-                  e.target.setAttribute("errorlogged", "true");
-                  e.target.onerror = null;
-                  e.target.src = 'https://via.placeholder.com/1200x600?text=White+Whaling';
-                }
-              }} 
+              className="blog-feature-image"
             />
-            <p className="image-debug-info">Image source: {getFullImageUrl(post.coverImage)}</p>
+            <p className="image-debug-info">Image source: {getCorrectImagePath(post.coverImage)}</p>
           </div>
         )}
         

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
+import DebugImage from '../components/DebugImage';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
 import './common.css';
 import './BlogSection.css';
 
@@ -36,9 +39,9 @@ const BlogSection = () => {
 
   // Improved image URL handling function
   const getCorrectImagePath = (imagePath) => {
-    if (!imagePath) {
-      // Return a default image if no image path is provided
-      return '../assets/white_whaling_logo.jpeg';
+    if (!imagePath) {      // Return a default image if no image path is provided
+      // Import default image at the top of the file
+      return '/src/assets/white_whaling_logo.jpeg';
     }
     
     try {
@@ -51,9 +54,8 @@ const BlogSection = () => {
       if (imagePath.startsWith('./') || imagePath.startsWith('../')) {
         // Try to resolve relative path - this might need adjustment based on your project structure
         return new URL(imagePath, window.location.origin).href;
-      }
-        // Get the API base URL from environment variable
-      const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+      }      // Get the API base URL from environment variable
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
       
       // For paths starting with /uploads/
       if (imagePath.startsWith('/uploads/')) {
@@ -103,23 +105,11 @@ const BlogSection = () => {
           <div className="blog-grid">
             {filteredBlogPosts.length > 0 ? (
               filteredBlogPosts.map(post => (
-                <div key={post._id} className="blog-card">
-                  <div className="blog-image-container">
-                    <img 
+                <div key={post._id} className="blog-card">                  <div className="blog-image-container">
+                    <DebugImage 
                       src={getCorrectImagePath(post.coverImage)}
                       alt={post.title} 
                       className="blog-image"
-                      onError={(e) => {
-                        console.log("Image failed to load:", post.coverImage);
-                        // Try with an absolute import path for the fallback
-                        import('../assets/white_whaling_logo.jpeg').then(image => {
-                          e.target.src = image.default;
-                        }).catch(err => {
-                          console.error("Failed to load fallback image:", err);
-                          // Last resort - set to empty string or data URI
-                          e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f0f0f0'/%3E%3Ctext x='50%25' y='50%25' font-family='Arial' font-size='14' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E";
-                        });
-                      }}
                     />
                     <div className="blog-tags">
                       {post.tags && post.tags.map((tag, index) => (
