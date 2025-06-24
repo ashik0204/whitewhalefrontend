@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
-import DebugImage from '../components/DebugImage';
-import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
 import './common.css';
 import './BlogSection.css';
 
@@ -16,9 +13,9 @@ const BlogSection = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        setIsLoading(true);
-        // Fix: Use correct API path
-        const response = await axios.get('/api/blog?limit=3');
+        setIsLoading(true);        // Use the correct API URL with base URL from environment
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+        const response = await axios.get(`${apiBaseUrl}/api/blog?limit=3`);
         
         const postsData = response.data.posts || response.data;
         setBlogPosts(postsData);
@@ -36,48 +33,31 @@ const BlogSection = () => {
   const filteredBlogPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // Improved image URL handling function
+  // Simple image URL handling function
   const getCorrectImagePath = (imagePath) => {
-    if (!imagePath) {      // Return a default image if no image path is provided
-      // Import default image at the top of the file
-      return '/src/assets/white_whaling_logo.jpeg';
+    if (!imagePath) {
+      return '/placeholder.jpg';
     }
     
-    try {
-      // If it's already a full URL, use it
-      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-        return imagePath;
-      }
-      
-      // Handle relative paths
-      if (imagePath.startsWith('./') || imagePath.startsWith('../')) {
-        // Try to resolve relative path - this might need adjustment based on your project structure
-        return new URL(imagePath, window.location.origin).href;
-      }      // Get the API base URL from environment variable
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
-      
-      // For paths starting with /uploads/
-      if (imagePath.startsWith('/uploads/')) {
-        return `${apiBaseUrl}${imagePath}`;
-      }
-      
-      // If it's just a filename without directory structure
-      if (!imagePath.includes('/')) {
-        return `${apiBaseUrl}/uploads/${imagePath}`;
-      }
-      
-      // If it starts with a slash but not /uploads/
-      if (imagePath.startsWith('/') && !imagePath.startsWith('/uploads/')) {
-        return `${window.location.origin}${imagePath}`;
-      }
-      
-      // Default case - try to use as-is
+    // If it's already a full URL, use it
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
       return imagePath;
-    } catch (error) {
-      console.error('Error processing image path:', error);
-      return '../assets/white_whaling_logo.jpeg'; // Fallback image
     }
+    
+    // For paths starting with /uploads/ (from backend)
+    if (imagePath.startsWith('/uploads/')) {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+      return `${apiBaseUrl}${imagePath}`;
+    }
+    
+    // If it's just a filename (likely from backend uploads)
+    if (!imagePath.includes('/')) {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+      return `${apiBaseUrl}/uploads/${imagePath}`;
+    }
+    
+    // For all other cases, return as-is
+    return imagePath;
   };
 
   return (
@@ -104,12 +84,17 @@ const BlogSection = () => {
         ) : (
           <div className="blog-grid">
             {filteredBlogPosts.length > 0 ? (
-              filteredBlogPosts.map(post => (
-                <div key={post._id} className="blog-card">                  <div className="blog-image-container">
-                    <DebugImage 
+              filteredBlogPosts.map(post => (                <div key={post._id} className="blog-card">                  
+                  <div className="blog-image-container">
+                    <img 
                       src={getCorrectImagePath(post.coverImage)}
                       alt={post.title} 
                       className="blog-image"
+                      onError={(e) => {
+                        console.log("Image failed to load:", post.coverImage);
+                        e.target.onerror = null;
+                        e.target.src = '/placeholder.jpg';
+                      }}
                     />
                     <div className="blog-tags">
                       {post.tags && post.tags.map((tag, index) => (

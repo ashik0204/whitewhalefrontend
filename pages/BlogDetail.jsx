@@ -4,8 +4,6 @@ import axios from 'axios';
 import './BlogDetail.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
-import DebugImage from '../components/DebugImage';
 
 const BlogDetail = () => {
   const { slug } = useParams();
@@ -37,9 +35,34 @@ const BlogDetail = () => {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    });
-  };  // Helper to properly format image URLs
-  const getFullImageUrl = getCorrectImagePath;
+    });  };
+  
+  // Helper to properly format image URLs
+  const getFullImageUrl = (imagePath) => {
+    if (!imagePath) {
+      return '/placeholder.jpg';
+    }
+    
+    // If it's already a full URL, use it
+    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      return imagePath;
+    }
+    
+    // For paths starting with /uploads/ (from backend)
+    if (imagePath.startsWith('/uploads/')) {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+      return `${apiBaseUrl}${imagePath}`;
+    }
+    
+    // If it's just a filename (likely from backend uploads)
+    if (!imagePath.includes('/')) {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+      return `${apiBaseUrl}/uploads/${imagePath}`;
+    }
+    
+    // For all other cases, return as-is
+    return imagePath;
+  };
 
   if (isLoading) {
     return (
@@ -93,14 +116,19 @@ const BlogDetail = () => {
             </div>
           )}
         </div>
-        
-        {post.coverImage && (          <div className="blog-detail-image">
-            <DebugImage 
-              src={getCorrectImagePath(post.coverImage)} 
+          {post.coverImage && (
+          <div className="blog-detail-image">
+            <img 
+              src={getFullImageUrl(post.coverImage)} 
               alt={post.title}
               className="blog-feature-image"
+              onError={(e) => {
+                console.error("Failed to load image:", post.coverImage);
+                e.target.onerror = null;
+                e.target.src = '/placeholder.jpg';
+              }}
             />
-            <p className="image-debug-info">Image source: {getCorrectImagePath(post.coverImage)}</p>
+            <p className="image-debug-info">Image source: {getFullImageUrl(post.coverImage)}</p>
           </div>
         )}
         

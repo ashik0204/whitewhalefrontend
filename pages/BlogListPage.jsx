@@ -4,8 +4,6 @@ import axios from 'axios';
 import './BlogListPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
-import DebugImage from '../components/DebugImage';
 
 const BlogListPage = () => {
   const [posts, setPosts] = useState([]);
@@ -19,7 +17,8 @@ const BlogListPage = () => {
     const fetchPosts = async () => {
       try {
         // Fix: Use correct API path
-        const response = await axios.get('/api/blog');
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+        const response = await axios.get(`${apiBaseUrl}/api/blog`);
         console.log('API response:', response.data); // Debug log
         
         // Ensure posts is always an array
