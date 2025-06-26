@@ -3,9 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminRegister.css";
 
-// Configure axios with the correct base URL - add this near the top after imports
-axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
-
 const AdminRegister = () => {
     const [ credentials, setcredentials ] = useState({
         username: "",
@@ -22,6 +19,7 @@ const AdminRegister = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
+        console.log("Token from URL:", token); // Debug log
         if (token) {
             setInviteToken(token);
         } else {
@@ -44,6 +42,9 @@ const AdminRegister = () => {
         setisLoading(true);
         
         try {
+            // Debug logs for better troubleshooting
+            console.log("API URL being used:", axios.defaults.baseURL);
+            console.log("Invitation token being sent:", inviteToken);
             console.log("Sending registration request with data:", {
                 ...credentials, 
                 inviteToken
@@ -67,6 +68,8 @@ const AdminRegister = () => {
             }
         } catch (err) {
             console.error("Registration error:", err);
+            console.error("Error response data:", err.response?.data);
+            console.error("Error status:", err.response?.status);
             seterror(err.response?.data?.message || 'Registration failed - Connection error');
         } finally {
             setisLoading(false);
