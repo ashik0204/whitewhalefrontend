@@ -36,7 +36,19 @@ const AdminLogin = () => {
       
       console.log("Login response:", response.data);
       
+      // Store token in localStorage for auth persistence
+      if (response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
+        console.log("JWT token stored in localStorage");
+        
+        // Update axios default headers for all subsequent requests
+        axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+      }
+      
       if (response.data.user) {
+        // Store user data in localStorage too
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
         console.log("User authenticated:", response.data.user);
         // Redirect based on role
         if (['admin', 'editor'].includes(response.data.user.role)) {

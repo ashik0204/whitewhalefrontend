@@ -18,6 +18,21 @@ const AdminDashboard = () => {
         console.log("Dashboard mounted - checking authentication...");
         console.log("API URL being used:", axios.defaults.baseURL);
         
+        // Check for stored token and add to axios headers if it exists
+        const storedToken = localStorage.getItem('authToken');
+        if (storedToken) {
+          console.log("Found stored auth token, adding to headers");
+          axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+        }
+        
+        // Check for stored user data first
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          console.log("Using stored user data:", parsedUser);
+          setUser(parsedUser);
+        }
+        
         // Get current user - Fix: Use correct API path
         console.log("Fetching current user...");
         const userResponse = await axios.get('/api/auth/me', { 
@@ -29,6 +44,8 @@ const AdminDashboard = () => {
         
         if (!userResponse.data.user || !['admin', 'editor'].includes(userResponse.data.user.role)) {
           console.log("User not authenticated or not admin/editor:", userResponse.data.user);
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('user');
           navigate('/admin/login');
           return;
         }
@@ -62,9 +79,22 @@ const AdminDashboard = () => {
     try {
       // Fix: Use correct API path
       await axios.post('/api/auth/logout', {}, { withCredentials: true });
+      
+      // Clear stored authentication data
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      delete axios.defaults.headers.common['Authorization'];
+      
+      console.log("Logged out successfully, cleared auth data");
       navigate('/admin/login');
     } catch (err) {
-      setError('Logout failed');
+      console.error("Logout error:", err);
+      // Still clear local storage even if server logout fails
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
+      delete axios.defaults.headers.common['Authorization'];
+      navigate('/admin/login');
+      setError('Logout failed on server but cleared local data');
     }
   };
 
