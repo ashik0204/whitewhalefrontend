@@ -15,25 +15,39 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Dashboard mounted - checking authentication...");
+        console.log("API URL being used:", axios.defaults.baseURL);
+        
         // Get current user - Fix: Use correct API path
-        const userResponse = await axios.get('/api/auth/me', { withCredentials: true });
-        // console.log(userResponse.data.user);
-        // console.log("error!")
+        console.log("Fetching current user...");
+        const userResponse = await axios.get('/api/auth/me', { 
+          withCredentials: true 
+        });
+        
+        console.log("User response:", userResponse.data);
         setUser(userResponse.data.user);
-        // console.log("error?")
         
         if (!userResponse.data.user || !['admin', 'editor'].includes(userResponse.data.user.role)) {
+          console.log("User not authenticated or not admin/editor:", userResponse.data.user);
           navigate('/admin/login');
           return;
         }
 
+        console.log("User authenticated successfully:", userResponse.data.user);
+
         // Get posts - Fix: Use correct API path
+        console.log("Fetching posts...");
         const postsResponse = await axios.get('/api/admin/posts', { withCredentials: true });
+        console.log("Posts response:", postsResponse.data);
         setPosts(postsResponse.data);
       } catch (err) {
+        console.error("Dashboard error:", err);
+        console.error("Error response:", err.response?.data);
+        console.error("Error status:", err.response?.status);
         setError('Failed to fetch data');
-        console.error(err);
+        
         if (err.response?.status === 401) {
+          console.log("Unauthorized - redirecting to login");
           navigate('/admin/login');
         }
       } finally {

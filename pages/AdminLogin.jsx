@@ -24,21 +24,33 @@ const AdminLogin = () => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
+    
+    console.log("Login attempt with:", credentials);
+    console.log("API URL being used:", axios.defaults.baseURL);
 
     try {
+      console.log("Sending login request with withCredentials:true...");
       const response = await axios.post('/api/auth/login', credentials, {
         withCredentials: true
       });
       
+      console.log("Login response:", response.data);
+      
       if (response.data.user) {
+        console.log("User authenticated:", response.data.user);
         // Redirect based on role
         if (['admin', 'editor'].includes(response.data.user.role)) {
+          console.log("Redirecting to dashboard...");
           navigate('/admin/dashboard');
         } else {
+          console.log("User doesn't have admin role:", response.data.user.role);
           setError('You do not have admin access');
         }
       }
     } catch (err) {
+      console.error("Login error:", err);
+      console.error("Error response:", err.response?.data);
+      console.error("Error status:", err.response?.status);
       setError(err.response?.data?.message || 'Login failed');
     } finally {
       setIsLoading(false);

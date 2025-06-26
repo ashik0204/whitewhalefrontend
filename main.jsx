@@ -6,6 +6,7 @@ import axios from 'axios';
 
 // Configure axios globally with the backend URL
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+axios.defaults.withCredentials = true; // Always send cookies with requests
 console.log('API URL:', import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
