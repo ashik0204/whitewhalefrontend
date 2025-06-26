@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
 import './BlogListPage.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -70,28 +71,7 @@ const BlogListPage = () => {
     );
   }
 
-  // Update the getCorrectImagePath helper function
-  const getCorrectImagePath = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // If it's already a full URL, use it
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }      // Get the API base URL from environment variable
-    const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
-    
-    // For paths starting with /uploads/
-    if (imagePath.startsWith('/uploads/')) {
-      return `${apiBaseUrl}${imagePath}`;
-    }
-    
-    // If it's just a filename
-    if (!imagePath.includes('/')) {
-      return `${apiBaseUrl}/uploads/${imagePath}`;
-    }
-    
-    return imagePath;
-  };
+  // We're now using the imported getCorrectImagePath function from imageUtils.js
 
   return (
     <>
@@ -151,15 +131,7 @@ const BlogListPage = () => {
                         src={getCorrectImagePath(post.coverImage)} 
                         alt={post.title || "Blog post image"} 
                         className="blog-image"
-                        onError={(e) => {
-                          // Prevent infinite loop by only logging once
-                          if (!e.target.getAttribute('data-error-logged')) {
-                            console.error("Failed to load image:", post.coverImage, "Using URL:", getCorrectImagePath(post.coverImage));
-                            e.target.setAttribute('data-error-logged', 'true');
-                            e.target.onerror = null;
-                            e.target.src = 'https://via.placeholder.com/800x600?text=Image+Not+Found';
-                          }
-                        }}
+                        onError={handleImageError(post.coverImage, '/placeholder.jpg')}
                       />
                     ) : (
                       <div className="default-image">No image available</div>

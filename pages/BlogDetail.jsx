@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
 import './BlogDetail.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -37,49 +38,7 @@ const BlogDetail = () => {
       day: 'numeric'
     });  };
   
-  // Enhanced helper to properly format image URLs with debugging
-  const getFullImageUrl = (imagePath) => {
-    if (!imagePath) {
-      console.log("BlogDetail: No image path provided, using placeholder");
-      return '/placeholder.jpg';
-    }
-    
-    // Always use the API base URL from environment or fallback
-    const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
-    console.log("BlogDetail: Using API base URL:", apiBaseUrl);
-    
-    // If it's already a full URL, use it
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      console.log("BlogDetail: Image is already a full URL:", imagePath);
-      return imagePath;
-    }
-    
-    // For paths starting with /uploads/ (from backend)
-    if (imagePath.startsWith('/uploads/')) {
-      const fullUrl = `${apiBaseUrl}${imagePath}`;
-      console.log("BlogDetail: Converted /uploads/ path to full URL:", fullUrl);
-      return fullUrl;
-    }
-    
-    // If it's just a filename (likely from backend uploads)
-    if (!imagePath.includes('/')) {
-      const fullUrl = `${apiBaseUrl}/uploads/${imagePath}`;
-      console.log("BlogDetail: Converted filename to full uploads URL:", fullUrl);
-      return fullUrl;
-    }
-    
-    // For relative paths that don't start with /uploads/
-    if (imagePath.startsWith('/')) {
-      const fullUrl = `${apiBaseUrl}${imagePath}`;
-      console.log("BlogDetail: Converted relative path to full URL:", fullUrl);
-      return fullUrl;
-    }
-    
-    // For all other cases, prepend API base URL to ensure it works
-    const fullUrl = `${apiBaseUrl}/${imagePath}`;
-    console.log("BlogDetail: Using default full URL construction:", fullUrl);
-    return fullUrl;
-  };
+  // We're now using the imported getCorrectImagePath function from imageUtils.js
 
   if (isLoading) {
     return (
@@ -136,16 +95,12 @@ const BlogDetail = () => {
           {post.coverImage && (
           <div className="blog-detail-image">
             <img 
-              src={getFullImageUrl(post.coverImage)} 
+              src={getCorrectImagePath(post.coverImage)} 
               alt={post.title}
               className="blog-feature-image"
-              onError={(e) => {
-                console.error("Failed to load image:", post.coverImage);
-                e.target.onerror = null;
-                e.target.src = '/placeholder.jpg';
-              }}
+              onError={handleImageError(post.coverImage, '/placeholder.jpg')}
             />
-            <p className="image-debug-info">Image source: {getFullImageUrl(post.coverImage)}</p>
+            <p className="image-debug-info">Image source: {getCorrectImagePath(post.coverImage)}</p>
           </div>
         )}
         

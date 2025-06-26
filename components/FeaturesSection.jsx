@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { getCorrectImagePath } from '../utils/imageUtils';
 import './FeaturesSection.css';
 import './common.css';
 
@@ -237,6 +238,8 @@ const FeaturesSection = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentPage, totalPages]);
   
+  // Using the imported getCorrectImagePath function from imageUtils.js
+
   const filteredFeatures = features.filter(feature =>
     feature.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -269,7 +272,7 @@ const FeaturesSection = () => {
                   className={`feature-card ${selectedFeatureId === feature.id ? 'selected' : ''}`}
                   onClick={() => selectFeature(feature.id)}
                   style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${feature.image})`,
+                    backgroundImage: `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${getCorrectImagePath(feature.image)})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     borderRadius: '10px',
