@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
+import { imageLoaderProps, debugImageUrls } from '../utils/uploadedImageLoader';
 import './BlogDetail.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -94,8 +95,14 @@ const BlogDetail = () => {
         </div>
           {post.coverImage && (
           <div className="blog-detail-image">
+            {/* Debug the image URL when component mounts */}
+            {useEffect(() => { 
+              console.log(`Debugging detail image for post: ${post.title}`); 
+              debugImageUrls(post.coverImage);
+            }, [post.coverImage])}
+            
             <img 
-              src={getCorrectImagePath(post.coverImage)} 
+              {...imageLoaderProps(post.coverImage)}
               alt={post.title}
               className="blog-feature-image"
               onError={handleImageError(post.coverImage, '/placeholder.jpg')}

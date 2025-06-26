@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getCorrectImagePath } from '../utils/imageUtils';
+import { imageLoaderProps, debugImageUrls } from '../utils/uploadedImageLoader';
 import './FeaturesSection.css';
 import './common.css';
 
@@ -271,8 +272,27 @@ const FeaturesSection = () => {
                   key={feature.id} 
                   className={`feature-card ${selectedFeatureId === feature.id ? 'selected' : ''}`}
                   onClick={() => selectFeature(feature.id)}
+                  // Use our custom feature image loader with debugging
+                  ref={(el) => {
+                    if (el) {
+                      // Debug the image when component mounts
+                      console.log(`Debugging feature image for: ${feature.title}`);
+                      debugImageUrls(feature.image);
+                      
+                      // Use a separate image element to preload and handle errors
+                      const img = new Image();
+                      img.onload = () => {
+                        el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${img.src})`;
+                      };
+                      img.onerror = () => {
+                        console.error(`Failed to load feature image: ${feature.image}`);
+                        // Try direct fallback to placeholder
+                        el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(/placeholder.jpg)`;
+                      };
+                      img.src = getCorrectImagePath(feature.image);
+                    }
+                  }}
                   style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${getCorrectImagePath(feature.image)})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     borderRadius: '10px',

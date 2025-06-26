@@ -32,17 +32,38 @@ export const getCorrectImagePath = (imagePath) => {
     // Handle relative paths to assets folder
     if (imagePath.startsWith('./assets/') || imagePath.startsWith('/assets/') || 
         imagePath.startsWith('assets/') || imagePath.startsWith('../assets/')) {
-      // Extract the filename and use it with the base URL
-      const filename = imagePath.split('/').pop();
-      const assetUrl = `/assets/${filename}`;
+      // Try to preserve the original path more faithfully
+      let assetUrl;
+      if (imagePath.startsWith('/assets/')) {
+        assetUrl = imagePath; // Keep it as-is if it already has the right format
+      } else {
+        const assetPath = imagePath.replace(/^\.\/assets\/|^assets\/|^\.\.\/assets\//, '');
+        assetUrl = `/assets/${assetPath}`;
+      }
       console.log("ImageUtils: Converted asset path to:", assetUrl);
       return assetUrl;
     }
     
     // For paths starting with /uploads/ (from the backend)
     if (imagePath.startsWith('/uploads/')) {
+      // Always use the full URL with API base for uploads
       const fullUrl = `${apiBaseUrl}${imagePath}`;
-      console.log("ImageUtils: Converted /uploads/ path to full URL:", fullUrl);
+      
+      // Add debug info
+      console.log("ImageUtils: Converting upload path:");
+      console.log("- Original path:", imagePath);
+      console.log("- API Base URL:", apiBaseUrl);
+      console.log("- Full URL:", fullUrl);
+      
+      // Make a test request to see if the URL is accessible
+      fetch(fullUrl, { method: 'HEAD' })
+        .then(response => {
+          console.log(`Image URL ${fullUrl} status: ${response.status}`);
+        })
+        .catch(error => {
+          console.error(`Failed to fetch ${fullUrl}:`, error);
+        });
+      
       return fullUrl;
     }
     
@@ -70,6 +91,22 @@ export const getCorrectImagePath = (imagePath) => {
 };
 
 /**
+ * Check if an image URL is accessible
+ * @param {string} url - The image URL to check
+ * @returns {Promise<boolean>} Promise resolving to true if image is accessible
+ */
+export const checkImageUrl = async (url) => {
+  try {
+    const response = await fetch(url, { method: 'HEAD' });
+    console.log(`Image URL ${url} status: ${response.status}`);
+    return response.ok;
+  } catch (error) {
+    console.error(`Failed to check URL ${url}:`, error);
+    return false;
+  }
+};
+
+/**
  * Creates an image onError handler that falls back to a default image
  * @param {string} originalSrc - The original image source that failed
  * @param {string} fallbackImage - Optional fallback image path
@@ -77,6 +114,26 @@ export const getCorrectImagePath = (imagePath) => {
  */
 export const handleImageError = (originalSrc, fallbackImage = '/placeholder.jpg') => (e) => {
   console.error('Image failed to load:', originalSrc);
+  
+  // Get the API base URL for diagnostic
+  const apiBaseUrl = getApiBaseUrl();
+  
+  // Try to diagnose the issue
+  const imageUrl = e.target.src;
+  console.error(`Image load failed - URL: ${imageUrl}`);
+  
+  // Check if the server has the image with our debug endpoint
+  if (originalSrc.includes('/uploads/') && apiBaseUrl) {
+    const filename = originalSrc.split('/').pop();
+    const checkUrl = `${apiBaseUrl}/api/debug/image-check?path=${encodeURIComponent(originalSrc)}`;
+    
+    console.log(`Checking if image exists on server: ${checkUrl}`);
+    fetch(checkUrl)
+      .then(response => response.json())
+      .then(data => console.log('Image check result:', data))
+      .catch(error => console.error('Error checking image:', error));
+  }
+  
   e.target.onerror = null; // Prevent infinite error loop
   e.target.src = fallbackImage;
 };

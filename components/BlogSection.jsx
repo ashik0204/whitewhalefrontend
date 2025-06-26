@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
+import { imageLoaderProps, debugImageUrls } from '../utils/uploadedImageLoader';
 import './common.css';
 import './BlogSection.css';
 
@@ -62,12 +63,21 @@ const BlogSection = () => {
             {filteredBlogPosts.length > 0 ? (
               filteredBlogPosts.map(post => (                <div key={post._id} className="blog-card">                  
                   <div className="blog-image-container">
-                    <img 
-                      src={getCorrectImagePath(post.coverImage)}
-                      alt={post.title} 
-                      className="blog-image"
-                      onError={handleImageError(post.coverImage, '/placeholder.jpg')}
-                    />
+                    {post.coverImage && (
+                      <React.Fragment>
+                        {/* Debug the image URL when component mounts */}
+                        {useEffect(() => { 
+                          console.log(`Debugging image for post: ${post.title}`); 
+                          debugImageUrls(post.coverImage);
+                        }, [post.coverImage])}
+                        
+                        <img 
+                          {...imageLoaderProps(post.coverImage)}
+                          alt={post.title} 
+                          className="blog-image"
+                        />
+                      </React.Fragment>
+                    )}
                     <div className="blog-tags">
                       {post.tags && post.tags.map((tag, index) => (
                         <span key={index} className="blog-tag">{tag}</span>
