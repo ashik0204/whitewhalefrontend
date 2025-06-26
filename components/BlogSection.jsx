@@ -5,21 +5,6 @@ import { getCorrectImagePath, handleImageError } from '../utils/imageUtils';
 import './common.css';
 import './BlogSection.css';
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * BlogSection component
- *
- * This component fetches the latest 3 blog posts and renders a section with
- * a search bar, a grid of blog cards, and a call-to-action to subscribe to the
- * newsletter.
- *
- * If there are no blog posts, it displays a message saying so.
- *
- * If there is an error fetching the blog posts, it displays an error message.
- *
- * @returns {React.ReactElement} The rendered BlogSection component
- */
-/*******  ef709fe4-3eb0-4431-b975-59cb1453d451  *******/
 const BlogSection = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
