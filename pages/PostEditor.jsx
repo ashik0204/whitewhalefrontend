@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './PostEditor.css';
 
-const PostEditor = () => {{
+const PostEditor = () => {
   const { id } = useParams();
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
@@ -32,8 +32,9 @@ const PostEditor = () => {{
     if (imagePath.startsWith('http')) {
       return imagePath;
     }
-      // Get the API base URL from environment variable
-    const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001';
+    
+    // Get the API base URL from environment variable
+    const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
     
     // For paths starting with /uploads/
     if (imagePath.startsWith('/uploads/')) {
@@ -44,10 +45,9 @@ const PostEditor = () => {{
     if (!imagePath.includes('/')) {
       return `${apiBaseUrl}/uploads/${imagePath}`;
     }
-      return `${window.location.origin}/uploads/${imagePath}`;
-    }
     
-    return imagePath;
+    // Default fallback for relative paths
+    return `${window.location.origin}/uploads/${imagePath}`;
   };
 
   // Fetch post data if in edit mode
@@ -117,26 +117,39 @@ const PostEditor = () => {{
 
   // Helper function to display cleaner image paths
   const formatImagePath = (path) => {
-    if (!path) return '';
+    console.log("formatImagePath called with:", path);
+    
+    if (!path) {
+      console.log("Empty path provided to formatImagePath");
+      return '';
+    }
     
     // For data URLs (base64), show a placeholder text
     if (path.startsWith('data:')) {
+      console.log("Data URL detected, returning placeholder");
       return 'New image selected (unsaved)';
     }
     
     // For URLs, extract just the filename
     try {
+      console.log("Attempting to parse as URL:", path);
       const url = new URL(path);
       const pathParts = url.pathname.split('/');
-      return pathParts[pathParts.length - 1]; // Just show the filename
+      const filename = pathParts[pathParts.length - 1];
+      console.log("Extracted filename from URL:", filename);
+      return filename; // Just show the filename
     } catch (e) {
+      console.log("Not a valid URL, checking for upload path");
       // For relative paths
       if (path.startsWith('/uploads/')) {
         const pathParts = path.split('/');
-        return pathParts[pathParts.length - 1]; // Just show the filename
+        const filename = pathParts[pathParts.length - 1];
+        console.log("Extracted filename from upload path:", filename);
+        return filename; // Just show the filename
       }
     }
     
+    console.log("Using path as-is:", path);
     return path;
   };
 
@@ -301,6 +314,7 @@ const PostEditor = () => {{
           />
           {previewUrl && (
             <div className="image-preview">
+              {console.log("Rendering preview for URL:", previewUrl)}
               <img 
                 src={previewUrl} 
                 alt="Preview" 
@@ -312,8 +326,14 @@ const PostEditor = () => {{
               />
               {previewUrl && (
                 <p className="image-info">
+                  {console.log("About to format image path:", previewUrl)}
                   <span className="image-filename">{formatImagePath(previewUrl)}</span>
-                  {imageFile && <span className="image-size">({(imageFile.size / 1024).toFixed(1)} KB)</span>}
+                  {imageFile && (
+                    <span className="image-size">
+                      {console.log("Image file size:", imageFile.size)}
+                      ({(imageFile.size / 1024).toFixed(1)} KB)
+                    </span>
+                  )}
                 </p>
               )}
             </div>
