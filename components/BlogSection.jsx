@@ -33,31 +33,48 @@ const BlogSection = () => {
   const filteredBlogPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  // Simple image URL handling function
+  // Enhanced image URL handling function with debugging
   const getCorrectImagePath = (imagePath) => {
     if (!imagePath) {
+      console.log("No image path provided, using placeholder");
       return '/placeholder.jpg';
     }
     
+    // Always use the API base URL from environment or fallback
+    const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
+    console.log("Using API base URL:", apiBaseUrl);
+    
     // If it's already a full URL, use it
     if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+      console.log("Image is already a full URL:", imagePath);
       return imagePath;
     }
     
     // For paths starting with /uploads/ (from backend)
     if (imagePath.startsWith('/uploads/')) {
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
-      return `${apiBaseUrl}${imagePath}`;
+      const fullUrl = `${apiBaseUrl}${imagePath}`;
+      console.log("Converted /uploads/ path to full URL:", fullUrl);
+      return fullUrl;
     }
     
     // If it's just a filename (likely from backend uploads)
     if (!imagePath.includes('/')) {
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'https://whitewhale-xxs6.onrender.com';
-      return `${apiBaseUrl}/uploads/${imagePath}`;
+      const fullUrl = `${apiBaseUrl}/uploads/${imagePath}`;
+      console.log("Converted filename to full uploads URL:", fullUrl);
+      return fullUrl;
     }
     
-    // For all other cases, return as-is
-    return imagePath;
+    // For relative paths that don't start with /uploads/
+    if (imagePath.startsWith('/')) {
+      const fullUrl = `${apiBaseUrl}${imagePath}`;
+      console.log("Converted relative path to full URL:", fullUrl);
+      return fullUrl;
+    }
+    
+    // For all other cases, prepend API base URL to ensure it works
+    const fullUrl = `${apiBaseUrl}/${imagePath}`;
+    console.log("Using default full URL construction:", fullUrl);
+    return fullUrl;
   };
 
   return (
