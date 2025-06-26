@@ -40,14 +40,37 @@ const AdminDashboard = () => {
         });
         
         console.log("User response:", userResponse.data);
-        setUser(userResponse.data.user);
         
-        if (!userResponse.data.user || !['admin', 'editor'].includes(userResponse.data.user.role)) {
-          console.log("User not authenticated or not admin/editor:", userResponse.data.user);
-          localStorage.removeItem('authToken');
-          localStorage.removeItem('user');
-          navigate('/admin/login');
-          return;
+        // Make sure we have a valid user object with a role
+        if (userResponse.data.user && userResponse.data.user.role) {
+          console.log("Valid user object received from API:", userResponse.data.user);
+          setUser(userResponse.data.user);
+          
+          // Update localStorage with most recent user data
+          localStorage.setItem('user', JSON.stringify(userResponse.data.user));
+          
+          if (!['admin', 'editor'].includes(userResponse.data.user.role)) {
+            console.log("User doesn't have admin/editor role:", userResponse.data.user.role);
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            navigate('/admin/login');
+            return;
+          }
+        } else {
+          console.log("User data missing or incomplete:", userResponse.data);
+          
+          // Fall back to stored user data if API didn't return a complete user
+          const storedUser = JSON.parse(localStorage.getItem('user') || '{}');
+          if (storedUser && storedUser.role && ['admin', 'editor'].includes(storedUser.role)) {
+            console.log("Using stored user data as fallback:", storedUser);
+            setUser(storedUser);
+          } else {
+            console.log("No valid user data found in API response or localStorage");
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('user');
+            navigate('/admin/login');
+            return;
+          }
         }
 
         console.log("User authenticated successfully:", userResponse.data.user);
