@@ -18,6 +18,19 @@ export const getUploadedImageSources = (imagePath) => {
     };
   }
   
+  // Handle external URLs directly
+  if (imagePath.startsWith('http://') || 
+      imagePath.startsWith('https://') ||
+      imagePath.includes('webflow-prod-assets') || 
+      imagePath.includes('amazonaws.com') ||
+      imagePath.includes('cdn.prod.website')) {
+    console.log("ImageLoader: External image URL detected:", imagePath);
+    return {
+      primary: imagePath,
+      fallbacks: []
+    };
+  }
+  
   // Normalize the path
   let normalizedPath = imagePath;
   if (!normalizedPath.startsWith('/uploads/') && !normalizedPath.includes('://')) {
@@ -32,16 +45,14 @@ export const getUploadedImageSources = (imagePath) => {
   
   // Generate various URL formats to try
   const sources = {
-    primary: `${apiBaseUrl}${normalizedPath}`,
+    primary: normalizedPath.startsWith('/') ? `${apiBaseUrl}${normalizedPath}` : `${apiBaseUrl}/${normalizedPath}`,
     fallbacks: [
+      // Try relative URL from current domain first (this often works in development)
+      `/uploads/${filename}`,
       // Try absolute URL with API base
       `${apiBaseUrl}/uploads/${filename}`,
-      // Try relative URL from current domain
-      `/uploads/${filename}`,
       // Try direct access to file without path prefix
-      `${apiBaseUrl}/${filename}`,
-      // Try with different path format
-      normalizedPath.startsWith('/') ? `${apiBaseUrl}${normalizedPath}` : `${apiBaseUrl}/${normalizedPath}`
+      `${apiBaseUrl}/${filename}`
     ]
   };
   
@@ -93,6 +104,16 @@ export const imageLoaderProps = (imagePath) => {
  * @param {string} imagePath - The path to check
  */
 export const debugImageUrls = async (imagePath) => {
+  // Skip debugging for external URLs
+  if (imagePath.startsWith('http://') || 
+      imagePath.startsWith('https://') ||
+      imagePath.includes('webflow-prod-assets') || 
+      imagePath.includes('amazonaws.com') ||
+      imagePath.includes('cdn.prod.website')) {
+    console.log(`Debug: Skipping external URL check for ${imagePath}`);
+    return;
+  }
+  
   const sources = getUploadedImageSources(imagePath);
   const allUrls = [sources.primary, ...sources.fallbacks];
   
@@ -100,6 +121,12 @@ export const debugImageUrls = async (imagePath) => {
   
   for (const url of allUrls) {
     try {
+      // Check if URL is well-formed
+      if (!url || url.includes('undefined') || url.endsWith('/')) {
+        console.log(`URL: ${url} - Invalid format, skipping check`);
+        continue;
+      }
+      
       const response = await fetch(url, { method: 'HEAD' });
       console.log(
         `URL: ${url} - Status: ${response.status} ${response.ok ? '✅' : '❌'}`

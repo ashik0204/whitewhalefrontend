@@ -29,6 +29,14 @@ export const getCorrectImagePath = (imagePath) => {
       return imagePath;
     }
     
+    // Handle external URLs that might be in webflow or amazonaws formats
+    if (imagePath.includes('webflow-prod-assets') || 
+        imagePath.includes('amazonaws.com') ||
+        imagePath.includes('cdn.prod.website')) {
+      console.log("ImageUtils: External image URL detected:", imagePath);
+      return imagePath; // Return external URLs directly without modification
+    }
+    
     // Handle relative paths to assets folder
     if (imagePath.startsWith('./assets/') || imagePath.startsWith('/assets/') || 
         imagePath.startsWith('assets/') || imagePath.startsWith('../assets/')) {
@@ -54,15 +62,6 @@ export const getCorrectImagePath = (imagePath) => {
       console.log("- Original path:", imagePath);
       console.log("- API Base URL:", apiBaseUrl);
       console.log("- Full URL:", fullUrl);
-      
-      // Make a test request to see if the URL is accessible
-      fetch(fullUrl, { method: 'HEAD' })
-        .then(response => {
-          console.log(`Image URL ${fullUrl} status: ${response.status}`);
-        })
-        .catch(error => {
-          console.error(`Failed to fetch ${fullUrl}:`, error);
-        });
       
       return fullUrl;
     }

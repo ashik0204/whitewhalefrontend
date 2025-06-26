@@ -31,6 +31,18 @@ const BlogSection = () => {
 
     fetchPosts();
   }, []);
+  
+  // Debug post images when they're loaded
+  useEffect(() => {
+    if (blogPosts.length > 0) {
+      console.log('Debugging blog post images...');
+      blogPosts.forEach(post => {
+        if (post.coverImage) {
+          console.log(`Post "${post.title}" image: ${post.coverImage}`);
+        }
+      });
+    }
+  }, [blogPosts]);
 
   const filteredBlogPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -64,19 +76,16 @@ const BlogSection = () => {
               filteredBlogPosts.map(post => (                <div key={post._id} className="blog-card">                  
                   <div className="blog-image-container">
                     {post.coverImage && (
-                      <React.Fragment>
-                        {/* Debug the image URL when component mounts */}
-                        {useEffect(() => { 
-                          console.log(`Debugging image for post: ${post.title}`); 
-                          debugImageUrls(post.coverImage);
-                        }, [post.coverImage])}
-                        
-                        <img 
-                          {...imageLoaderProps(post.coverImage)}
-                          alt={post.title} 
-                          className="blog-image"
-                        />
-                      </React.Fragment>
+                      <img 
+                        src={getCorrectImagePath(post.coverImage)}
+                        alt={post.title} 
+                        className="blog-image"
+                        onError={(e) => {
+                          console.error(`Failed to load image: ${post.coverImage}`);
+                          e.target.onerror = null;
+                          e.target.src = '/placeholder.jpg';
+                        }}
+                      />
                     )}
                     <div className="blog-tags">
                       {post.tags && post.tags.map((tag, index) => (

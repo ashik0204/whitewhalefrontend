@@ -272,24 +272,27 @@ const FeaturesSection = () => {
                   key={feature.id} 
                   className={`feature-card ${selectedFeatureId === feature.id ? 'selected' : ''}`}
                   onClick={() => selectFeature(feature.id)}
-                  // Use our custom feature image loader with debugging
+                  // Direct background image setup
                   ref={(el) => {
                     if (el) {
-                      // Debug the image when component mounts
-                      console.log(`Debugging feature image for: ${feature.title}`);
-                      debugImageUrls(feature.image);
+                      console.log(`Setting image for feature: ${feature.title} - ${feature.image}`);
                       
-                      // Use a separate image element to preload and handle errors
-                      const img = new Image();
-                      img.onload = () => {
-                        el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${img.src})`;
-                      };
-                      img.onerror = () => {
+                      // Handle external URLs properly
+                      const imageUrl = getCorrectImagePath(feature.image);
+                      el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${imageUrl})`;
+                      
+                      // Add error handling
+                      const handleError = () => {
                         console.error(`Failed to load feature image: ${feature.image}`);
-                        // Try direct fallback to placeholder
                         el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(/placeholder.jpg)`;
                       };
-                      img.src = getCorrectImagePath(feature.image);
+                      
+                      // Test if the image loads
+                      if (imageUrl !== '/placeholder.jpg') {
+                        const tester = new Image();
+                        tester.onerror = handleError;
+                        tester.src = imageUrl;
+                      }
                     }
                   }}
                   style={{
