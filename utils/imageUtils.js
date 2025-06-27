@@ -38,19 +38,19 @@ export const getCorrectImagePath = (imagePath) => {
     }
     
     // Handle relative paths to assets folder
-    if (imagePath.startsWith('./assets/') || imagePath.startsWith('/assets/') || 
-        imagePath.startsWith('assets/') || imagePath.startsWith('../assets/')) {
-      // Try to preserve the original path more faithfully
-      let assetUrl;
-      if (imagePath.startsWith('/assets/')) {
-        assetUrl = imagePath; // Keep it as-is if it already has the right format
-      } else {
-        const assetPath = imagePath.replace(/^\.\/assets\/|^assets\/|^\.\.\/assets\//, '');
-        assetUrl = `/assets/${assetPath}`;
-      }
-      console.log("ImageUtils: Converted asset path to:", assetUrl);
-      return assetUrl;
-    }
+    if (
+  imagePath.startsWith('./assets/') || 
+  imagePath.startsWith('/assets/') || 
+  imagePath.startsWith('assets/') || 
+  imagePath.startsWith('../assets/')
+) {
+  // Normalize to ../assets/whatever
+  const assetPath = imagePath.replace(/^(\.\/|\.\.\/|\/)?assets\//, '');
+  const normalizedPath = `../assets/${assetPath}`;
+  console.log("ImageUtils: Normalized asset path to:", normalizedPath);
+  return normalizedPath;
+}
+
     
     // For paths starting with /uploads/ (from the backend)
     if (imagePath.startsWith('/uploads/')) {
