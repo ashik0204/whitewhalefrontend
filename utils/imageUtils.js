@@ -111,27 +111,12 @@ export const checkImageUrl = async (url) => {
  * @param {string} fallbackImage - Optional fallback image path
  * @returns {Function} An onError handler for img elements
  */
-export const handleImageError = (originalSrc, fallbackImage = '${apiBaseUrl}/placeholder.jpg') => (e) => {
+export const handleImageError = (originalSrc, fallbackImage = 'https://via.placeholder.com/400x300?text=Image+Not+Found') => (e) => {
   console.error('Image failed to load:', originalSrc);
-  
-  // Get the API base URL for diagnostic
-  const apiBaseUrl = getApiBaseUrl();
   
   // Try to diagnose the issue
   const imageUrl = e.target.src;
   console.error(`Image load failed - URL: ${imageUrl}`);
-  
-  // Check if the server has the image with our debug endpoint
-  // if (originalSrc.includes('/uploads/') && apiBaseUrl) {
-  //   const filename = originalSrc.split('/').pop();
-  //   const checkUrl = `${apiBaseUrl}/api/debug/image-check?path=${encodeURIComponent(originalSrc)}`;
-    
-  //   console.log(`Checking if image exists on server: ${checkUrl}`);
-  //   fetch(checkUrl)
-  //     .then(response => response.json())
-  //     .then(data => console.log('Image check result:', data))
-  //     .catch(error => console.error('Error checking image:', error));
-  // }
   
   e.target.onerror = null; // Prevent infinite error loop
   e.target.src = fallbackImage;

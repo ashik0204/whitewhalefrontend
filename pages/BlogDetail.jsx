@@ -32,12 +32,21 @@ const BlogDetail = () => {
     fetchPost();
   }, [slug]);
 
+  // Debug image URLs when post loads
+  useEffect(() => {
+    if (post && post.coverImage) {
+      console.log(`Debugging detail image for post: ${post.title}`);
+      debugImageUrls(post.coverImage);
+    }
+  }, [post]);
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
-    });  };
+    });
+  };
   
   // We're now using the imported getCorrectImagePath function from imageUtils.js
 
@@ -95,12 +104,6 @@ const BlogDetail = () => {
         </div>
           {post.coverImage && (
           <div className="blog-detail-image">
-            {/* Debug the image URL when component mounts */}
-            {useEffect(() => { 
-              console.log(`Debugging detail image for post: ${post.title}`); 
-              debugImageUrls(post.coverImage);
-            }, [post.coverImage])}
-            
             <img 
               {...imageLoaderProps(post.coverImage)}
               alt={post.title}
