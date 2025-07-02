@@ -38,17 +38,21 @@ export const getCorrectImagePath = (imagePath) => {
     }
     
     // Handle relative paths to assets folder
+    // For Vite, src/assets files need to be imported, not served as static files
+    // We'll return the path as-is and let the component handle the import
     if (
   imagePath.startsWith('./assets/') || 
   imagePath.startsWith('/assets/') || 
   imagePath.startsWith('assets/') || 
   imagePath.startsWith('../assets/')
 ) {
-  // Normalize to ../assets/whatever
+  // Try to construct the import path for Vite
   const assetPath = imagePath.replace(/^(\.\/|\.\.\/|\/)?assets\//, '');
-  const normalizedPath = `/assets/${assetPath}`;
-  console.log("ImageUtils: Normalized asset path to:", normalizedPath);
-  return normalizedPath;
+  
+  // For background images, we need to use a different approach
+  // Return a special marker that the component can handle
+  console.log("ImageUtils: Asset path detected, needs to be imported:", assetPath);
+  return `src/assets/${assetPath}`;
 }
 
     

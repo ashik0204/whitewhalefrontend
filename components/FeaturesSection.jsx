@@ -4,6 +4,13 @@ import { imageLoaderProps, debugImageUrls } from '../utils/uploadedImageLoader';
 import './FeaturesSection.css';
 import './common.css';
 
+// Import asset images
+import omniChanImg from '../assets/omni_chan.png';
+import hiCareImg from '../assets/hi_care.png';
+import hiCrmImg from '../assets/hi_crm_1.png';
+import dataEnrichmentImg from '../assets/data-enrichment.png';
+import workflowImg from '../assets/workflow.png';
+
 const FeaturesSection = () => {
   // Track which feature is currently selected
   const [selectedFeatureId, setSelectedFeatureId] = useState(null);
@@ -61,7 +68,7 @@ const FeaturesSection = () => {
     {
       id: 'omnichannel',
       title: 'Omnichannel Marketing',
-      image: '/assets/omni_chan.png',
+      image: omniChanImg,
       overview: 'Engage users across email, WhatsApp, LinkedIn, and in-app with unified campaigns.',
       benefits: [
         'Plan and launch across all platforms',
@@ -75,7 +82,7 @@ const FeaturesSection = () => {
     {
       id: 'customer-care',
       title: 'Customer Care',
-      image: '/assets/hi_care.png',  
+      image: hiCareImg,  
       overview: 'Deliver faster, smarter support with AI-enhanced chatbots and automation.',
       benefits: [
         'Handle Tier 1 queries 24/7',
@@ -103,7 +110,7 @@ const FeaturesSection = () => {
     {
       id: 'crm-integration',
       title: 'CRM Integration',
-      image: '/assets/hi_crm_1.png',
+      image: hiCrmImg,
       overview: 'Plug into your CRM with zero-code, bi-directional sync.',
       benefits: [
         'Auto-update fields and lifecycle stages',
@@ -117,7 +124,7 @@ const FeaturesSection = () => {
     {
       id: 'data-enrichment',
       title: 'Data Enrichment',
-      image: '/assets/data-enrichment.png',
+      image: dataEnrichmentImg,
       overview: 'Enhance records with live data from third-party sources and AI.',
       benefits: [
         'Fill in missing job titles, emails, company size',
@@ -131,7 +138,7 @@ const FeaturesSection = () => {
     {
       id: 'workflow-engine',
       title: 'Workflow Engine',
-      image: '/assets/workflow.png',
+      image: workflowImg,
       overview: 'Build visual customer journeys that trigger based on behavior, time, or intent.',
       benefits: [
         'Drag-and-drop builder',
@@ -277,18 +284,26 @@ const FeaturesSection = () => {
                     if (el) {
                       console.log(`Setting image for feature: ${feature.title} - ${feature.image}`);
                       
-                      // Handle external URLs properly
-                      const imageUrl = getCorrectImagePath(feature.image);
+                      // Check if it's an imported image (string from import) or external URL
+                      let imageUrl;
+                      if (typeof feature.image === 'string' && feature.image.startsWith('http')) {
+                        // External URL, use as-is
+                        imageUrl = feature.image;
+                      } else {
+                        // Imported asset, use directly
+                        imageUrl = feature.image;
+                      }
+                      
                       el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(${imageUrl})`;
                       
                       // Add error handling
                       const handleError = () => {
                         console.error(`Failed to load feature image: ${feature.image}`);
-                        el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(/placeholder.jpg)`;
+                        el.style.backgroundImage = `linear-gradient(rgba(255,255,255,0.6), rgba(255,255,255,0.6)), url(https://via.placeholder.com/400x300?text=Feature+Image)`;
                       };
                       
-                      // Test if the image loads
-                      if (imageUrl !== '/placeholder.jpg') {
+                      // Test if the image loads (only for external URLs)
+                      if (typeof feature.image === 'string' && feature.image.startsWith('http')) {
                         const tester = new Image();
                         tester.onerror = handleError;
                         tester.src = imageUrl;
