@@ -61,7 +61,7 @@ const FeaturesSection = () => {
     {
       id: 'omnichannel',
       title: 'Omnichannel Marketing',
-      image: '../assets/omni_chan.png',
+      image: '/assets/omni_chan.png',
       overview: 'Engage users across email, WhatsApp, LinkedIn, and in-app with unified campaigns.',
       benefits: [
         'Plan and launch across all platforms',
@@ -75,7 +75,7 @@ const FeaturesSection = () => {
     {
       id: 'customer-care',
       title: 'Customer Care',
-      image: '../assets/hi_care.png',  
+      image: '/assets/hi_care.png',  
       overview: 'Deliver faster, smarter support with AI-enhanced chatbots and automation.',
       benefits: [
         'Handle Tier 1 queries 24/7',
@@ -103,7 +103,7 @@ const FeaturesSection = () => {
     {
       id: 'crm-integration',
       title: 'CRM Integration',
-      image: '../assets/hi_crm_1.png',
+      image: '/assets/hi_crm_1.png',
       overview: 'Plug into your CRM with zero-code, bi-directional sync.',
       benefits: [
         'Auto-update fields and lifecycle stages',
@@ -117,7 +117,7 @@ const FeaturesSection = () => {
     {
       id: 'data-enrichment',
       title: 'Data Enrichment',
-      image: '../assets/data-enrichment.png',
+      image: '/assets/data-enrichment.png',
       overview: 'Enhance records with live data from third-party sources and AI.',
       benefits: [
         'Fill in missing job titles, emails, company size',
@@ -131,7 +131,7 @@ const FeaturesSection = () => {
     {
       id: 'workflow-engine',
       title: 'Workflow Engine',
-      image: '../assets/workflow.png',
+      image: '/assets/workflow.png',
       overview: 'Build visual customer journeys that trigger based on behavior, time, or intent.',
       benefits: [
         'Drag-and-drop builder',

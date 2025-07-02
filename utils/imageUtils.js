@@ -46,7 +46,7 @@ export const getCorrectImagePath = (imagePath) => {
 ) {
   // Normalize to ../assets/whatever
   const assetPath = imagePath.replace(/^(\.\/|\.\.\/|\/)?assets\//, '');
-  const normalizedPath = `../assets/${assetPath}`;
+  const normalizedPath = `/assets/${assetPath}`;
   console.log("ImageUtils: Normalized asset path to:", normalizedPath);
   return normalizedPath;
 }
